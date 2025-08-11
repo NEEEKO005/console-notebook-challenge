@@ -18,19 +18,38 @@ class Note:
         if tag not in self.tags:
             self.tags.append(tag)
 
+    def __str__(self)->str:
+        return f"Date: {self.creation_date}\n{self.title}: {self.text}"
+
 
 class Notebook:
 
     def __init__(self):
         self.notes: List[Note] = []
 
-    def add_note(self, title: str, text: str, importance: str) -> int:
-        new_code = 1
-        existing_codes = {int(note.code) for note in self.notes}
-        while new_code in existing_codes:
-            new_code += 1
+    def add_note(self, title: str, text: str, importance: str) -> str:
+       code: str =str(len(self.notes) + 1)
+       note: Note = Note(code, title, text, importance)
+       self.notes.append(note)
+       return code
 
-        new_note = Note(str(new_code), title, text, importance)
-        self.notes.append(new_note)
+    def delete_note(self, code: str):
+        for note in self.notes:
+            if note.code == code:
+                self.notes.remove(note)
 
-        return new_code
+    def import_note(self) -> list[Note]:
+        important: List[str] = []
+        for note in self.notes:
+            if note.importance == Note.HIGH or note.importance == Note.MEDIUM:
+                important.append(note)
+        return important
+
+    def notes_by_tag(self, tag: str) -> List[Note]:
+        notes: List[Note] = []
+        for note in self.notes:
+            if tag in note.tags:
+                notes.append(note)
+        return notes
+
+    def tag_with_most_notes(self) -> str:
