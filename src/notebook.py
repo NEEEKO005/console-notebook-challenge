@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import List
 
 class Note:
-    # Constantes de clase
     HIGH: str = 'HIGH'
     MEDIUM: str = 'MEDIUM'
     LOW: str = 'LOW'
